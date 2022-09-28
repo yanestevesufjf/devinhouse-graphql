@@ -16,6 +16,7 @@ builder.Services
     .AddQueryType()
         .AddTypeExtension<CharacterQueries>()
         .AddTypeExtension<ReviewQueries>()
+        .AddTypeExtension<DeveloperQueries>()
         // .AddMutationType()
         // .AddTypeExtension<ReviewMutations>()
         // .AddSubscriptionType()
@@ -24,6 +25,7 @@ builder.Services
     .AddType<Human>()
     .AddType<Droid>()
     .AddType<Starship>()
+    .AddType<DeveloperQueries>()
     .AddTypeExtension<CharacterResolvers>()
 
     .AddFiltering()
@@ -37,10 +39,18 @@ app.MapGraphQL();
 
 app.Run();
 
-/*
-escola
+[ExtendObjectType(OperationTypeNames.Query)]
+public class DeveloperQueries
+{
+    public Developer GetApi_Info()
+    {
+        return new Developer { Author  = "Yan Esteves", Github = "https://github.com/yanestevesufjf", Course = "DevInHouse" };
+    }
+}
 
-- alunos AlunosQuery
-- professores ProfessoresQuery
-
-*/
+public class Developer
+{
+    public string? Author {get; set;}
+    public string? Github {get;set;}
+    public string? Course {get;set;}
+}
