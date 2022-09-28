@@ -17,10 +17,10 @@ builder.Services
         .AddTypeExtension<CharacterQueries>()
         .AddTypeExtension<ReviewQueries>()
         .AddTypeExtension<DeveloperQueries>() // adicionando uma nova anotação para queries
-        // .AddMutationType()
-        // .AddTypeExtension<ReviewMutations>()
-        // .AddSubscriptionType()
-        // .AddTypeExtension<ReviewSubscriptions>()
+                                              // .AddMutationType()
+                                              // .AddTypeExtension<ReviewMutations>()
+                                              // .AddSubscriptionType()
+                                              // .AddTypeExtension<ReviewSubscriptions>()
 
     .AddType<Human>()
     .AddType<Droid>()
@@ -34,8 +34,20 @@ builder.Services
 
     .AddApolloTracing();
 
+
+// cors
+
+// services.AddResponseCaching();
+
+//services cors
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
+app.UseCors("corsapp");
 app.MapGraphQL();
 
 app.Run();
@@ -47,16 +59,16 @@ public class DeveloperQueries
     [GraphQLDescription("Função para retornar dados do autor da api.")] // definindo uma descrição para a operação.
     public Developer GetApi_Info()
     {
-        return new Developer { Author  = "Yan Esteves", Github = "https://github.com/yanestevesufjf", Course = "DevInHouse" };
+        return new Developer { Author = "Yan Esteves", Github = "https://github.com/yanestevesufjf", Course = "DevInHouse" };
     }
 }
 [GraphQLDescription("Um objeto do tipo Developer")]
 public class Developer
 {
     [GraphQLDescription("Nome do responsável pela API.")]
-    public string? Author {get; set;}
+    public string? Author { get; set; }
     [GraphQLDescription("Github do desenvolvedor.")]
-    public string? Github {get;set;}
+    public string? Github { get; set; }
     [GraphQLDescription("Nome do curso que foi aplicado este conteúdo.")]
-    public string? Course {get;set;}
+    public string? Course { get; set; }
 }
